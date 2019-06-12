@@ -1,6 +1,6 @@
 ## GITHUB ISSUE TRACKER
 
-Application to track all open issues sorted by Date of creation of any Github Repository, given its URL.
+Application to track all open issues sorted by Date of creation for any Github Repository, given its URL.
 
 Input: 
 
@@ -19,7 +19,8 @@ Application UI displays a table with the following information-
 
 - ReactJS for User Interface
 - Material-UI https://material-ui.com/
-- NodeJs Express framework for server side
+- NodeJs
+- Express framework for server side
 - Adobe XD for User Interface mock-up and wireframing
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
