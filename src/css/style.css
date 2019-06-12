@@ -1,0 +1,9 @@
+.issue-flex-container {
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.flex-item{
+    flex: 0 auto;
+}
