@@ -29,6 +29,8 @@ To make faster and efficient Async requests, in case of Repositories with large 
  
 See `InputComp.js` for full implementation details.
 
+An Error Modal Component is displayed in the application, in case of a Bad request is performed.
+
 ### FUTURE IMPROVEMENTS
 
 - Implement Behaviour driven development and test the components for making the App more robust
