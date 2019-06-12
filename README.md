@@ -17,11 +17,26 @@ Application UI displays a table with the following information-
 
 ### DEVELOPMENT STACK
 
+- HTML/CSS for DOM and Styling
 - ReactJS for User Interface
 - Material-UI https://material-ui.com/
-- NodeJs
-- Express framework for server side
+- NodeJS Express framework for server side
 - Adobe XD for User Interface mock-up and wireframing
+
+### BACKEND ALGORITHM USED
+
+To make faster and efficient Async requests, in case of Repositories with large no of issue counts and Pull requests- instead cf iterating over all pull requests endpoints, here the link in the header of response is used and evaluated. The link header provide access to the next and last pages. Using this approach a more efficient and constant time algorithm can be implemented.
+ 
+See `InputComp.js` for full implementation details.
+
+### FUTURE IMPROVEMENTS
+
+- Implement Behaviour driven development and test the components for making the App more robust
+- Usage of Hooks instead of Class based React components
+- Custom styling for the individual components
+- Making the User Interface more interactive for the user
+
+The Application production build deployed on Heroku platform. Open [https://githubissue-tracker.herokuapp.com](https://githubissue-tracker.herokuapp.com) to view it in the browser.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
