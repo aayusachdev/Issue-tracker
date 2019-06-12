@@ -27,7 +27,7 @@ var datetime= require('react-datetime');
 */
 const StyledButton = withStyles({
     root: {
-      background: 'linear-gradient(20deg, #1CB5E0 0%, #000851 100%)',
+      background: 'linear-gradient(10deg, #1CB5E0 0%, #000851 100%)',
       borderRadius: 3,
       border: 0,
       color: 'white',
