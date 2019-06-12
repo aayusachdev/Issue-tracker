@@ -4,7 +4,7 @@ Application to track all open issues sorted by Date of creation for any Github R
 
 Input: 
 
-User can input a link to any public GitHub repository.
+User can input a link to any GitHub repository (URL: `https://github.com/[username]/[Repository name]`)
 
 Output :
 
