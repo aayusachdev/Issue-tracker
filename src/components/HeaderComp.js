@@ -19,11 +19,10 @@ const StyledAppBar = withStyles({
       background: 'linear-gradient(90deg, #1CB5E0 0%, #000851 100%)',
       borderRadius: 3,
       border: 0,
-      //color: 'white',
+      color: 'white',
       padding: '0 30px',
-      boxShadow: '5px 3px 5px 2px rgba(0,8,81,0.3)',
-      textAlign:'center',
-      overflow: 'hidden'
+      //boxShadow: '5px 3px 5px 2px rgba(0,8,81,0.3)',
+      textAlign:'center'
     }
   })(AppBar);
 
