@@ -57,7 +57,8 @@ const StyledInput= withStyles({
     root: {
            margin: 'auto',
            width: '99%',
-           borderColor: '#78ffd6'
+           borderColor: '#78ffd6',
+           color: '#78ffd6'
         },
     })(TextField);
     
