@@ -29,7 +29,7 @@ To make faster and efficient Async requests, in case of Repositories with large 
  
 See `InputComp.js` for full implementation details.
 
-An Error Modal Component is displayed in the application, in case of a Bad request is performed.
+An Error Modal Component `ErrorModalComp.js` is displayed in the application, in case of a Bad request is performed.
 
 ### FUTURE IMPROVEMENTS
 
