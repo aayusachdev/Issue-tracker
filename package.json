@@ -10,6 +10,7 @@
     "locutus": "^2.0.10",
     "moment": "^2.24.0",
     "nodestrtotime": "^1.0.0",
+    "parse-link-header": "^1.0.1",
     "path": "^0.12.7",
     "prettier": "^1.18.2",
     "react": "^16.8.6",

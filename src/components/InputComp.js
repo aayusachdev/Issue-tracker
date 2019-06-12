@@ -6,8 +6,7 @@ import IssuesBarComp from './IssuesBarComp';
 import LoadingSpinnerComp from './LoadingSpinnerComp';
 import ErrorModalComp from './ErrorModalComp';
 import axios from 'axios';
-
-/* Required for calculating the date-time ISO string values */
+var parse = require('parse-link-header');
 var datetime= require('react-datetime');
 
 /**
@@ -15,11 +14,20 @@ var datetime= require('react-datetime');
  * This component is used to display the Input field and the corresponding Submit Button.
  * The Repository URL is entered in "https://github.com/:Username/:Repository_name" format.
  * Creates the "https://api.github.com/repos/username/Repository_name" for the GitHub API
- * Makes the Promise-All call to the API, and renders { @IssuesBarComp } or { @ErrorModalComp }
+ * Makes the Promise-All axios to the GitHub API, and renders { @IssuesBarComp } or { @ErrorModalComp }
  * depending upon the flag values present in the component state.
- * Passes the issues count object as props to the { @IssuesBarComp } to display the individual issues.
+ * Passes the issues count object as props to the { @IssuesBarComp } to render the individual issues.
+ * 
+ * <---------------------------------BACKEND ALGORITHM DESCRIPTION --------------------------------->
+ * 
+ * For every GET request the per_page=1 is set. The header of the GET response is evaluated in
+ * getIssueCountForResponse() function which takes @response as @param. 
+ * headers.link of the @response is evaluated. If it is not NULL or undefined,
+ * it is parsed and headers.link.last.page value is @returned otherwise
+ * since the given endpoint doesn't have links in it's header, the Response.data.length 
+ * is returned as the final count. 
  */
-
+ 
 /**
  * Implementation of Custom styling for the StyledButton component.
  * withStyles() higher-order component is injecting a classes property
@@ -71,17 +79,33 @@ class InputComp extends Component{
         this.onTextChange= this.onTextChange.bind(this);
         this.onSubmit= this.onSubmit.bind(this);
     }
-    
-    /* Input value function for the StyledInput Component */
+
     onTextChange = (event) => {
         this.setState({
             repolink: event.target.value
         })
    }
 
-   /* Submit function for the StyledButton Component */
+/** getIssueCountForResponse() evaluates the given response of the API call
+ *  @returns Response.headers.link.last.page if response.header.link is defined
+ *           else, Response.data.length is returned as final count.
+ *  @param {*} Response 
+ */   
+   getIssueCountForResponse(Response){ 
+        const linkHeader= Response.headers.link;   
+        if(linkHeader === undefined || linkHeader === null){
+            return (Response.data.length);
+        }
+        else{
+            var parsed= parse(linkHeader);
+            return parsed.last.page;  
+        }
+    }
+
+/* Submit function for the StyledButton Component */
    onSubmit(e){
         e.preventDefault();
+
         /* Calculating last24 hrs and last7 days values in ISO String format for the API requests */
         var yesterday = datetime.moment().subtract( 1, 'day' ).toDate();
         var sevendays = datetime.moment().subtract( 7, 'day' ).toDate();
@@ -91,36 +115,45 @@ class InputComp extends Component{
         /* Break the input repository url in array format */
         var inputUrlArray= this.state.repolink.split('/');
 
-        /* Url for the GitHub Api, $inputUrlArray[3] contain username, $inputUrlArray[4] contain repository name */
+        /* Url for the GitHub API, $inputUrlArray[3] contain username, $inputUrlArray[4] contain repository name */
         var apiUrlIssues = `https://api.github.com/repos/${inputUrlArray[3]}/${inputUrlArray[4]}`;
-        var all_open_issues, issues_last7days;
-        all_open_issues=issues_last7days=0;
-
-        /* Axios async calls to the GitHub API and setting the state */
+        var all_open_issues, issues_last7days, issues_24hrs, total_pr_requests;
+        all_open_issues= issues_last7days= issues_24hrs= total_pr_requests= 0;
+        
+        /* Axios GET Calls to the GitHub API /issues and /pulls with per_page=1 set */
         this.setState({ loading: true, isPressed: false }, () => {
-           axios.all([axios.get(apiUrlIssues,{headers:{'Content-Type': 'application/json'}}),
-                    axios.get(`${apiUrlIssues}/pulls`,{headers:{'Content-Type': 'application/json'}}),
-                    axios.get(`${apiUrlIssues}/issues?since=${last_24hr}`,{headers:{'Content-Type': 'application/json'}}),
-                    axios.get(`${apiUrlIssues}/issues?since=${last_7days}`,{headers:{'Content-Type': 'application/json'}})])
-                    /* GET API calls to
-                       Issues, -pulls, Issues -using since=last24hrs and since=last7days ISO strings.*/
-               .then(axios.spread((firstResponse, secondResponse, thirdResponse, fourthResponse) => {
-                    all_open_issues= firstResponse.data["open_issues_count"]-secondResponse.data.length;
-                    issues_last7days= fourthResponse.data.length-thirdResponse.data.length;
+            axios.all([axios.get(apiUrlIssues,{headers:{'Content-Type': 'application/json'}}),
+                    axios.get(`${apiUrlIssues}/pulls?per_page=1`, {headers:{'Content-Type': 'application/json'}}),
+                    axios.get(`${apiUrlIssues}/issues?since=${last_24hr}&per_page=1`,{headers:{'Content-Type': 'application/json'}}),
+                    axios.get(`${apiUrlIssues}/issues?since=${last_7days}&per_page=1`,{headers:{'Content-Type': 'application/json'}})])
+                    /* GET API calls to /issues -using since=last24hrs and since=last7days ISO strings.*/
+                .then(axios.spread((firstResponse, secondResponse, thirdResponse, fourthResponse) => {
                     
-                     this.setState(state => ({ issueCount: Object.assign({}, state.issueCount, { 
+                    //Getting the "total pull requests" count using the API response
+                    total_pr_requests= this.getIssueCountForResponse(secondResponse);
+                    
+                    //open_issues_count contains pull requests as well, subtracting them gives actual "open issues count"
+                    all_open_issues= firstResponse.data["open_issues_count"]-total_pr_requests;
+                    
+                    //Getting the "issues count in last 24 hrs" using the API response with the since parameter as last_24hr
+                    issues_24hrs= this.getIssueCountForResponse(thirdResponse);
+                    
+                    //Getting the "issues count in last 7 days excluding yesterday" using the API response with the since parameter as last_7days
+                    issues_last7days= this.getIssueCountForResponse(fourthResponse)- issues_24hrs;
+                    
+                    //To Get issues beyond last week: total open issues minus last complete week issues gives the required count
+                    this.setState(state => ({ issueCount: Object.assign({}, state.issueCount, { 
                                     all: all_open_issues,
-                                    last24: thirdResponse.data.length,
-                                    last7: fourthResponse.data.length-thirdResponse.data.length,
-                                    beyond7: all_open_issues-issues_last7days-thirdResponse.data.length
+                                    last24: issues_24hrs,
+                                    last7: issues_last7days,
+                                    beyond7: all_open_issues-issues_last7days- issues_24hrs 
                                    }),
                             isPressed: true,  
-                            loading: false, // Flag is set-{false} to indicate completion of async calls and render IssuesBarComp.
+                            loading: false, // Flag is set- {false} to indicate completion of async calls and render IssuesBarComp.
                             repolink: ''
                     }));
                 }))
                 .catch(error => {
-                       //console.log(error.message);
                        this.setState({
                             isError: true,  // Flag is set-{true} to render ErrorModal in case any Error occurs.
                             loading: false
