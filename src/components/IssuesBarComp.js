@@ -8,8 +8,7 @@ import '../css/style.css';
  * Uses a flex-container to display the { @IssuesComp } components.
  * Passes the issues count values as props to the { @IssuesComp } to display the individual issue count.
  */
-
- function IssuesBarComp(props) {
+function IssuesBarComp(props) {
 return (
     <Fragment>
         <div className="issue-flex-container">

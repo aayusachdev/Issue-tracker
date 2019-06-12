@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     media: {
       height: 140,
       width:500,
-      background: 'linear-gradient(15deg, #1CB5E0 0%, #000851 100%)',
+      background: 'linear-gradient(15deg , #007991, #78ffd6)',
       borderRadius: 4,
       margin: '25% auto',
       boxShadow: '0px 3px 5px 2px rgba(0, 8, 81, 0.3)',

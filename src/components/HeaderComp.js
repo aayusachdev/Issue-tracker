@@ -16,12 +16,12 @@ import AppBar from '@material-ui/core/AppBar';
 */
 const StyledAppBar = withStyles({
     root: {
-      background: 'linear-gradient(90deg, #1CB5E0 0%, #000851 100%)',
+      background: 'linear-gradient(to right, #007991, #78ffd6)',
       borderRadius: 3,
       border: 0,
       color: 'white',
       padding: '0 30px',
-      //boxShadow: '5px 3px 5px 2px rgba(0,8,81,0.3)',
+      boxShadow: '0px 3px 5px 2px rgba(0, 8, 81, 0.3)',
       textAlign:'center'
     }
   })(AppBar);

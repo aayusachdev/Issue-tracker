@@ -18,7 +18,7 @@ const LoadingSpinnerComp = (props) =>{
     const isOpen= props.open
     return(
         isOpen ? (<div style={{textAlign:'center'}}>
-                        <RingLoader css={custom} sizeUnit={"px"} size={200} color={'#000851'}/>
+                        <RingLoader css={custom} sizeUnit={"px"} size={200} color={'#007991'}/>
                   </div>) : null
     )
 }

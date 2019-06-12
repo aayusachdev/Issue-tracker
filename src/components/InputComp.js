@@ -27,7 +27,7 @@ var datetime= require('react-datetime');
 */
 const StyledButton = withStyles({
     root: {
-      background: 'linear-gradient(10deg, #1CB5E0 0%, #000851 100%)',
+      background: 'linear-gradient(15deg , #007991, #78ffd6)',
       borderRadius: 3,
       border: 0,
       color: 'white',
@@ -49,7 +49,7 @@ const StyledInput= withStyles({
     root: {
            margin: 'auto',
            width: '99%',
-           borderColor: '#000851'
+           borderColor: '#78ffd6'
         },
     })(TextField);
     
@@ -102,9 +102,8 @@ class InputComp extends Component{
                     axios.get(`${apiUrlIssues}/pulls`,{headers:{'Content-Type': 'application/json'}}),
                     axios.get(`${apiUrlIssues}/issues?since=${last_24hr}`,{headers:{'Content-Type': 'application/json'}}),
                     axios.get(`${apiUrlIssues}/issues?since=${last_7days}`,{headers:{'Content-Type': 'application/json'}})])
-                    /** GET API calls to
-                     *  Issues, -pulls, Issues -using since=last24hrs and since=last7days ISO strings. 
-                     */
+                    /* GET API calls to
+                       Issues, -pulls, Issues -using since=last24hrs and since=last7days ISO strings.*/
                .then(axios.spread((firstResponse, secondResponse, thirdResponse, fourthResponse) => {
                     all_open_issues= firstResponse.data["open_issues_count"]-secondResponse.data.length;
                     issues_last7days= fourthResponse.data.length-thirdResponse.data.length;

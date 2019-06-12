@@ -25,7 +25,7 @@ const customStyles = makeStyles({
     width:200,
     color: '#ffffff',
     textAlign:'center',
-    background: 'linear-gradient(15deg, #1CB5E0 0%, #000851 100%)',
+    background: 'linear-gradient(15deg, #007991, #78ffd6)',
   },
   content: {
     textAlign:'center',
