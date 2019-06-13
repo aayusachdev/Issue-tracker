@@ -4,7 +4,7 @@ Application to track all open issues sorted by Date of creation for any Github R
 
 Input: 
 
-User can input a link to any public GitHub repository.
+User can input a link to any public GitHub repository (URL: `https://github.com/[username]/[Repository name]`)
 
 Output :
 
@@ -25,9 +25,11 @@ Application UI displays a table with the following information-
 
 ### BACKEND ALGORITHM USED
 
-To make faster and efficient Async requests, in case of Repositories with large no of issue counts and Pull requests- instead cf iterating over all pull requests endpoints, here the link in the header of response is used and evaluated. The link header provide access to the next and last pages. Using this approach a more efficient and constant time algorithm can be implemented.
+To make faster and efficient Async requests, in case of Repositories with large no of issue counts and Pull requests- instead of iterating over all pull requests endpoints, here the link in the header of response is used and evaluated. The link header provide access to the next and last pages. Using this approach a more efficient and Constant time algorithm can be implemented.
  
 See `InputComp.js` for full implementation details.
+
+An Error Modal Component `ErrorModalComp.js` is displayed in the application, in case of a Bad request is performed.
 
 ### FUTURE IMPROVEMENTS
 
@@ -36,7 +38,7 @@ See `InputComp.js` for full implementation details.
 - Custom styling for the individual components
 - Making the User Interface more interactive for the user
 
-The Application production build deployed on Heroku platform. Open [https://githubissue-tracker.herokuapp.com](https://githubissue-tracker.herokuapp.com) to view it in the browser.
+The Application is deployed on Heroku platform. Open [https://githubissue-tracker.herokuapp.com](https://githubissue-tracker.herokuapp.com) to view it in the browser.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
