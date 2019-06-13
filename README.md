@@ -21,6 +21,7 @@ Application UI displays a table with the following information-
 - ReactJS for User Interface
 - Material-UI https://material-ui.com/
 - NodeJS Express framework for server side
+- GitHub API
 - Adobe XD for User Interface mock-up and wireframing
 
 ### BACKEND ALGORITHM USED
